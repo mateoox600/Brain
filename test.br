@@ -1,0 +1,43 @@
+
+comment
+	print 10
+	print 10.1
+	print -10
+	print -10.1
+	print "1_0.1"
+
+	print (test) 10 (testingString) "whaa le string marche même avec les \" ! incroyable"
+
+comment
+	this is a comment and will not be executed
+	print "test"
+
+	test 5
+		print "pass"
+
+	test
+		print "doesn't pass because test require one arg to pass"
+
+	loop 5
+		print "loop"
+
+pop (all) ;
+
+push "testing stack"
+
+func pr
+	print $0
+
+call pr
+call pr test
+pop
+call pr
+pop
+
+push (array) ; super loop thing for stack or arrays
+
+func stackLoop
+	print $p
+	print "index: " $p
+
+forOf (func) stackLoop $0
