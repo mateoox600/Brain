@@ -21,23 +21,24 @@ comment
 	loop 5
 		print "loop"
 
-pop (all) ;
+	pop (all) ;
 
-push "testing stack"
+	push "testing stack"
 
-func pr
-	print $0
+	func pr
+		print $0
 
-call pr
-call pr test
-pop
-call pr
-pop
+	call pr
+	call pr test
+	pop
+	call pr
+	pop
 
 push (array) ; super loop thing for stack or arrays
+push (flat) ; $*p
 
 func stackLoop
 	print $p
 	print "index: " $p
 
-forOf (func) stackLoop $0
+forOf (func) stackLoop $*

@@ -93,6 +93,7 @@ export default class Brain {
             block: false,
             execute: ({ args, kwargs }) => {
                 if(kwargs['array'] != undefined) this.stack.push(args);
+                else if(kwargs['flat'] != undefined) args.flat(2).forEach((arg) => this.stack.push(arg));
                 else args.forEach((arg) => this.stack.push(arg));
             }
         });
