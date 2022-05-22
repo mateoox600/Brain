@@ -6,7 +6,7 @@ comment
 	print -10.1
 	print "1_0.1"
 
-	print (test) 10 (testingString) "whaa le string marche même avec les \" ! incroyable"
+	print (test) 10 (testingString) "the string works even with \" !"
 
 comment
 	this is a comment and will not be executed
