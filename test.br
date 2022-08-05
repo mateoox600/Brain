@@ -5,7 +5,11 @@ print -10
 print -10.1
 print "1_0.1"
 
+<<<<<<< HEAD
 print (test) 10 (testingString) "whaa le string marche même avec les \" ! incroyable"
+=======
+	print (test) 10 (testingString) "the string works even with \" !"
+>>>>>>> 52498090b38dc7b4c96af6f7843f54ae2990c6d4
 
 comment
 	this is a comment and will not be executed
