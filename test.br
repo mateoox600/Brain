@@ -1,40 +1,40 @@
 
-comment
-	print 10
-	print 10.1
-	print -10
-	print -10.1
-	print "1_0.1"
+print 10
+print 10.1
+print -10
+print -10.1
+print "1_0.1"
 
-	print (test) 10 (testingString) "whaa le string marche même avec les \" ! incroyable"
+print (test) 10 (testingString) "whaa le string marche même avec les \" ! incroyable"
 
 comment
 	this is a comment and will not be executed
-	print "test"
 
-	test 5
-		print "pass"
+print "test"
 
-	test
-		print "doesn't pass because test require one arg to pass"
+test 5
+	print "pass"
 
-	loop 5
-		print "loop"
+test
+	print "doesn't pass because test require one arg to pass"
 
-	pop (all) ;
+loop 5
+	print "loop"
 
-	push "testing stack"
+pop (all) ;
 
-	func pr
-		print $0
+push "testing stack"
 
-	call pr
-	call pr test
-	pop
-	call pr
-	pop
+func pr
+	print $0
 
-push (array) ; super loop thing for stack or arrays
+jump pr
+jump pr test
+pop
+jump pr
+pop
+
+push (range) ; 10
 push (flat) ; $*p
 
 func stackLoop
@@ -42,3 +42,8 @@ func stackLoop
 	print "index: " $p
 
 forOf (func) stackLoop $*
+
+eq $0 "password" $1
+	print "enter"
+ne $0 "password" $1
+	print "leave"

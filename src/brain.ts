@@ -2,6 +2,10 @@ import { readFileSync } from 'fs';
 import interpret from './interpreter';
 import lex from './lexer';
 import parse from './parser';
+import PrintCommands from './commands/Print';
+import MathCommands from './commands/Math';
+import StackManipulationCommands from './commands/StackManipulation';
+import ConditionsCommands from './commands/Conditions';
 
 export interface CommandArgs {
     args: Arg[],
@@ -34,7 +38,7 @@ export interface ParsedCommand {
 export interface DefinedCommand {
     name: string,
     block: boolean,
-    execute(args: { args: unknown[], kwargs: { [key: string]: unknown } }, launchBlock: () => void, block: ParsedCommand[]): (() => void) | void;
+    execute(args: { args: unknown[], kwargs: { [key: string]: unknown } }, launchBlock: () => void, block: ParsedCommand[]): (() => void) | void
 }
 
 export default class Brain {
@@ -50,21 +54,11 @@ export default class Brain {
     public functions: Map<string, ParsedCommand[]> = new Map();
 
     constructor() {
-        this.commands.set('print', {
-            name: 'print',
-            block: false,
-            execute: ({ args }) => {
-                console.log(args.join(' '));
-            }
-        });
-        this.commands.set('printStack', {
-            name: 'printStack',
-            block: false,
-            execute: () => {
-                console.log(this.stack);
-            }
-        });
-        this.commands.set('forOf', {
+        this.importCommands(PrintCommands);
+        this.importCommands(MathCommands);
+        this.importCommands(StackManipulationCommands);
+        this.importCommands(ConditionsCommands);
+        this.importCommands({
             name: 'forOf',
             block: true,
             execute: ({ args, kwargs }, executeBlock) => {
@@ -81,36 +75,14 @@ export default class Brain {
                 });
             }
         });
-        this.commands.set('comment', {
+        this.importCommands({
             name: 'comment',
             block: true,
             execute: () => {
                 return;
             }
         });
-        this.commands.set('push', {
-            name: 'push',
-            block: false,
-            execute: ({ args, kwargs }) => {
-                if(kwargs['array'] != undefined) this.stack.push(args);
-                else if(kwargs['flat'] != undefined) args.flat(2).forEach((arg) => this.stack.push(arg));
-                else args.forEach((arg) => this.stack.push(arg));
-            }
-        });
-        this.commands.set('pop', {
-            name: 'pop',
-            block: false,
-            execute: ({ args, kwargs }) => {
-                if(kwargs['all'] != undefined) this.stack = [];
-                else if(args.length > 0 && typeof args[0] === 'number' && (args[0] as number) > 0) {
-                    const n = args[0] as number;
-                    this.stack.splice(this.stack.length - n, n);
-                }else {
-                    this.stack.pop();
-                }
-            }
-        });
-        this.commands.set('func', {
+        this.importCommands({
             name: 'func',
             block: true,
             execute: ({ args }, _, block) => {
@@ -120,8 +92,8 @@ export default class Brain {
                 this.functions.set(name, block);
             }
         });
-        this.commands.set('call', {
-            name: 'call',
+        this.importCommands({
+            name: 'jump',
             block: false,
             execute: ({ args }) => {
                 if(typeof args[0] !== 'string') throw TypeError('Function name isn\'t a string');
@@ -142,13 +114,20 @@ export default class Brain {
         return lex(input);
     }
 
-    parse(input: Command[]): ParsedCommand {
+    public parse(input: Command[]): ParsedCommand {
         return parse(input);
     }
 
     public interpret(commands: ParsedCommand, argv: string[]) {
         this.stack = argv || [];
         interpret(commands.block);
+    }
+
+    private importCommands(cmds: DefinedCommand | DefinedCommand[]) {
+        if(!Array.isArray(cmds)) cmds = [ cmds ];
+        cmds.forEach((cmd) => {
+            this.commands.set(cmd.name, cmd);
+        });
     }
 
 } 

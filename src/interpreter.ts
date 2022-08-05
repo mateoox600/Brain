@@ -7,7 +7,7 @@ function parseString(string: string, quoted: boolean) {
         if(value === '*') return brain.stack;
         else if(value === 'p') return brain.stack.pop();
         else if(value === '*p') return brain.stack.splice(0, brain.stack.length);
-        return brain.stack[brain.stack.length - 1 - Number(value)] || null;
+        return brain.stack[brain.stack.length - 1 - Number(value)];
     }else if(string.match(/^-?(?:\d_?)+.?(?:\d_?)*$/gm) && !quoted) {
         const number = Number(string.replace(/_/gm, ''));
         if(isNaN(number)) return string;

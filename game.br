@@ -1,0 +1,28 @@
+
+pop (all) ;
+push (range) ; 1 101
+
+forOf $p
+	rot
+	pop
+
+	dup
+	push 3
+	modulo
+	eq $0 0
+		printBare "Fizz"
+	rot
+	
+	dup
+	push 5
+	modulo
+	eq $0 0
+		printBare "Buzz"
+	rot
+
+	ne $1 0
+		ne $2 0
+			printBare $p
+	
+	printBare "\n"
+	pop 2
